@@ -10,4 +10,9 @@ describe('City Locator', () => {
   it('should render a <div />', () => {
     expect(wrapper.find('div').length).toEqual(1);
   });
+
+  it("should render instances of the CityLocatorButton component", () => {
+    expect(container.find("CityLocatorButton").length).toEqual(1)
+  })
+
 });
