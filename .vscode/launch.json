@@ -15,7 +15,7 @@
                 "<node_internals>/**"
             ],
             "type": "pwa-node",
-            "cwd": "${workspaceFolder}/project1"
+            "cwd": "${workspaceFolder}/project3"
 
         }
         
