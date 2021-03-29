@@ -1,6 +1,6 @@
 import React from "react"
 import { shallow } from "enzyme"
-import CityLocator from "../CityLocatorButton"
+import CityLocatorButton from "../CityLocatorButton"
 
 describe("CityLocatorButton", () => {
   let container

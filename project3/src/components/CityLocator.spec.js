@@ -3,12 +3,12 @@ import { shallow } from 'enzyme';
 import CityLocator from '../CityLocator';
 
 describe('City Locator', () => {
-  let wrapper;
+  let container;
 
-  beforeEach(() => wrapper = shallow(<CityLocator />));
+  beforeEach(() => container = shallow(<CityLocator />));
 
   it('should render a <div />', () => {
-    expect(wrapper.find('div').length).toEqual(1);
+    expect(container.find('div').length).toEqual(1);
   });
 
   it("should render instances of the CityLocatorButton component", () => {

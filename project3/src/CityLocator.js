@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card } from 'antd';
 import 'antd/dist/antd.css';
+import CityLocatorButton from "./CityLocatorButton";
 
 class CityLocator extends Component {
     constructor(props) {
@@ -16,7 +17,9 @@ class CityLocator extends Component {
     }
     render(){
         return <div>
-
+            <CityLocatorButton>
+                
+            </CityLocatorButton>
         </div>
     }
 }
