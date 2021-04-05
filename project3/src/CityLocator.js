@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card } from 'antd';
 import 'antd/dist/antd.css';
 import CityLocatorButton from "./CityLocatorButton";
+import CityLocatorTextInput from "./CityLocatorTextInput";
 
 class CityLocator extends Component {
     constructor(props) {
@@ -9,11 +10,12 @@ class CityLocator extends Component {
         this.state = { 
             latitude:0,
             longitude:0,
+            city: '',
         }; 
     }
-
-    getCity(latitude, longitude){
-        this.setState(latitude,longitude)
+    //sonradan değişmeli
+    locateCity(){
+        console.log("Locate city called.");
     }
     render(){
         return <div>
