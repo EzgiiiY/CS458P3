@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Card } from 'antd';
+import { Card, Button } from 'antd';
 import 'antd/dist/antd.css';
+import '../src/App.css';
+
 import CityLocatorButton from "./CityLocatorButton";
 import CityLocatorTextInput from "./CityLocatorTextInput";
 
@@ -12,6 +14,7 @@ class CityLocator extends Component {
             longitude:0,
             city: '',
         }; 
+        this.locateCity=this.locateCity.bind(this);
     }
     //sonradan değişmeli
     locateCity(){
@@ -19,7 +22,13 @@ class CityLocator extends Component {
     }
     render(){
         return <div>
-            <CityLocatorButton>
+            <CityLocatorTextInput>
+
+            </CityLocatorTextInput>
+            <CityLocatorTextInput>
+                
+            </CityLocatorTextInput>
+            <CityLocatorButton className="locate-city" buttonAction={this.locateCity}>
                 
             </CityLocatorButton>
         </div>

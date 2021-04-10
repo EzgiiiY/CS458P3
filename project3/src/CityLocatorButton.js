@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
 
-class CityLocatorButton extends Component {
-    render(){
-        return <div>
+const CityLocatorButton = ({ buttonValue,buttonAction }) => (
+    <div className="button-container" onClick={() => buttonAction()}>
+      <p className="button-value">{buttonValue} </p>
+    </div>
+  );
 
-        </div>
-    }
-}
 export default CityLocatorButton;
