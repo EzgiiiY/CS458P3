@@ -38,6 +38,7 @@ class CityLocator extends Component {
                         city=address[i].long_name;
                 }
               console.log("address: " + address+ " city: " + city );
+              this.setState({city:city})
             },
             (error) => {
               console.error(error);
