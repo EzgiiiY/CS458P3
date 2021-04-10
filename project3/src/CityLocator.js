@@ -26,9 +26,9 @@ class CityLocator extends Component {
         this.locateCity=this.locateCity.bind(this);
     }
     //sonradan değişmeli
-    locateCity(){
+    async locateCity(){
         console.log("Locate city called.");
-        Geocode.fromLatLng("39.8754", "39.8754").then(
+        await Geocode.fromLatLng("39.8754", "39.8754").then(
             (response) => {
                 let city;
               const address = response.results[0].address_components;

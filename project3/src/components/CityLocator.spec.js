@@ -35,6 +35,7 @@ describe('mounted CityLocator', () => {
   let container;
 
   beforeEach(() => (container = mount(<CityLocator />)));
+  
 
   it('invokes locateCity when the CityLocatar button is clicked', () => {
     const spy = jest.spyOn(container.instance(), 'locateCity');
@@ -44,5 +45,16 @@ describe('mounted CityLocator', () => {
     container.find('.locate-city').first().simulate('click');
     expect(spy).toHaveBeenCalledTimes(1);
   }); 
+
+  it('checks when the valid coordinates entered gives the correct city', () => {
+    //text input un class-name i latitude olmalı
+    container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 37.000000 } });
+    container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 35.321335 } });
+    container.find('.locate-city').first().simulate('click');
+
+    
+    expect(container.state('city')).toEqual("Adana");
+    
+    });  
     
 });
