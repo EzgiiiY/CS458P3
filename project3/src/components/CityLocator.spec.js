@@ -15,9 +15,19 @@ describe('City Locator', () => {
     expect(container.find("CityLocatorButton").length).toEqual(1)
   })
 
-  it("should render instances of the CityLocatorTextInput component", () => {
-    expect(container.find("CityLocatorTextInput").length).toEqual(2)
+  it("should render instances of the text input component", () => {
+    expect(container.find('input[type="text"]').length).toEqual(2)
   });
+
+
+  it('invokes change when the text input is modified.', () => {
+    //text input un class-name i latitude olmalı
+    container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 50 } });
+    expect(container.state('latitude')).toEqual(50);
+
+    container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 100 } });
+    expect(container.state('longitude')).toEqual(100);
+    });  
 
 });
 
@@ -33,13 +43,6 @@ describe('mounted CityLocator', () => {
     //cityLocatorButton butonunun className'i locate-city olmalı
     container.find('.locate-city').first().simulate('click');
     expect(spy).toHaveBeenCalledTimes(1);
-  });
-
-  {/*
-    it('invokes change when the CityLocatorTextInput is modified.', () => {
-      //text input un class-name i latitude olmalı
-      container.find('.latitude').simulate('change', { target: { name: 'width', value: 50 } });
-      expect(container.find('.latitude').prop('value')).toEqual(50);
-    });
-  */}
+  }); 
+    
 });

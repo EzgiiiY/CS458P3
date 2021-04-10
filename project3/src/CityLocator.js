@@ -22,12 +22,23 @@ class CityLocator extends Component {
     }
     render(){
         return <div>
-            <CityLocatorTextInput>
+            <input
+                className="latitude"
+                type="text"
+                name="latitude" 
+                onChange={(event)=>this.setState({latitude:event.target.value})}
+            >
 
-            </CityLocatorTextInput>
-            <CityLocatorTextInput>
+            </input>
+            <input
+                className="longitude"
+                type="text"
+                name="longitude" 
+                onChange={(event)=>this.setState({longitude:event.target.value})}
+            >
+
+            </input>
                 
-            </CityLocatorTextInput>
             <CityLocatorButton className="locate-city" buttonAction={this.locateCity}>
                 
             </CityLocatorButton>
