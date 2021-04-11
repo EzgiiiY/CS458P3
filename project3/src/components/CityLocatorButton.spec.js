@@ -13,7 +13,7 @@ describe("CityLocatorButton", () => {
       />
     )
   })
-  it("should render a <div />", () => {
-    expect(container.find("div").length).toBeGreaterThanOrEqual(1)
+  it("should render a <Button />", () => {
+    expect(container.find("Button").length).toBeGreaterThanOrEqual(1)
   })
 })

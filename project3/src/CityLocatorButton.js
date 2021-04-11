@@ -3,9 +3,9 @@ import { Button } from 'antd';
 import 'antd/dist/antd.css';
 
 const CityLocatorButton = ({ buttonValue,buttonAction }) => (
-    <div className="button-container" onClick={() => buttonAction()}>
+    <Button className="button-container" onClick={() => buttonAction()}>
       <p className="button-value">{buttonValue} </p>
-    </div>
+    </Button>
   );
 
 export default CityLocatorButton;

@@ -24,10 +24,10 @@ describe('City Locator', () => {
 
   it('invokes change when the text input is modified.', () => {
     //text input un class-name i latitude olmalı
-    container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 50 } });
+    container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 39.9334 } });
     expect(container.state('latitude')).toEqual(50);
 
-    container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 100 } });
+    container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 32.8597 } });
     expect(container.state('longitude')).toEqual(100);
     });  
 

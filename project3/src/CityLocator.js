@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Button } from 'antd';
+import { Card, Button,Input } from 'antd';
 import 'antd/dist/antd.css';
 import '../src/App.css';
 
@@ -12,7 +12,7 @@ Geocode.setApiKey("AIzaSyAHlJQ6EdfWT_UVPNpagMe7sS9kz1N-diU");
 // set response language. Defaults to english.
 Geocode.setLanguage("en");
 Geocode.setLocationType("ROOFTOP");
-
+const re = new RegExp("^([0-9]+([.][0-9]*)?|[.][0-9]+)$");
 
 
 class CityLocator extends Component {
@@ -22,15 +22,20 @@ class CityLocator extends Component {
             latitude:0,
             longitude:0,
             city: '',
-            loading:false
+            loading:false,
+            validLat:true,
+            validLong:true,
         }; 
         this.locateCity=this.locateCity.bind(this);
+        this.onChangeLat = this.onChangeLat.bind(this);
+        this.onChangeLong = this.onChangeLong.bind(this);
+
     }
     //sonradan değişmeli
     async locateCity(){
         this.setState({loading:true})
         console.log("Locate city called.");
-        await Geocode.fromLatLng("37.0", "35.321335").then(
+        await Geocode.fromLatLng(this.state.latitude.toString(), this.state.longitude.toString()).then(
             (response) => {
                 let city;
               const address = response.results[0].address_components;
@@ -48,25 +53,45 @@ class CityLocator extends Component {
         );
        console.log(this.state)
     }
+
+    onChangeLat(e){
+        console.log(e.target.value)
+        if(re.test(e.target.value))
+            this.setState({validLat:true, latitude:e.target.value})
+        else
+            this.setState({validLat:false})
+        console.log(this.state)
+    }
+
+    onChangeLong(e){
+        console.log(e.target.value)
+        if(re.test(e.target.value))
+            this.setState({validLong:true, longitude:e.target.value})
+        else
+            this.setState({validLong:false})
+        console.log(this.state)
+    }
+
     render(){
         return <div>
             <input
                 className="latitude"
                 type="text"
                 name="latitude" 
-                onChange={(event)=>this.setState({latitude:event.target.value})}
+                onChange={this.onChangeLat}
             >
 
             </input>
+            {!this.state.validLat && <p>hello</p>}
             <input
                 className="longitude"
                 type="text"
                 name="longitude" 
-                onChange={(event)=>this.setState({longitude:event.target.value})}
+                onChange={this.onChangeLong}
             >
-
+            
             </input>
-                
+            {!this.state.validLong && <p>hello</p>}
             <CityLocatorButton className="locate-city" buttonValue="locate" buttonAction={this.locateCity}>
                 
             </CityLocatorButton>
