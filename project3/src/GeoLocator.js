@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Button,Input } from 'antd';
+import { Card, Button,Spin } from 'antd';
 import 'antd/dist/antd.css';
 import '../src/App.css';
 
@@ -33,6 +33,8 @@ class GeoLocator extends Component {
     }
 
     distance(lat1, lon1, lat2, lon2, unit) {
+        console.log("distance called")
+
         var radlat1 = Math.PI * lat1/180
         var radlat2 = Math.PI * lat2/180
         var theta = lon1-lon2
@@ -44,14 +46,15 @@ class GeoLocator extends Component {
         if (unit=="K") { dist = dist * 1.609344 }
         if (unit=="M") { dist = dist * 0.8684 }
         this.setState({loading:false, distance:dist})
-        console.log(dist)
     }
 
     async locate(){
+        this.setState({loading:true})
         navigator.geolocation.getCurrentPosition(position=> {
             console.log("Latitude is :", position.coords.latitude);
             console.log("Longitude is :", position.coords.longitude);
             this.setState({latitudeDevice:position.coords.latitude, longitudeDevice: position.coords.longitude})
+            console.log("locate")
             this.locateCity();
         })
         
@@ -59,7 +62,6 @@ class GeoLocator extends Component {
     }
 
     async locateCity(){
-        this.setState({loading:true})
         console.log("Locate city called.");
         console.log(this.state);
         await Geocode.fromLatLng(this.state.latitudeDevice.toString(), this.state.longitudeDevice.toString()).then(
@@ -99,6 +101,8 @@ class GeoLocator extends Component {
                 <GeoLocatorButton className="geo-locate" buttonValue="See Distance" buttonAction={this.locate}>
             
                 </GeoLocatorButton>
+                <br></br>
+                {this.state.loading && <Spin style={{marginTop:"2%"}}size="large"></Spin>}
                 {this.state.distance &&
                     <p className="result-text-geol" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >{ `Distance to nearest city center is ${this.state.distance} and that city is ${this.state.city}`}</p>
            

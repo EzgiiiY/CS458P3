@@ -3,6 +3,7 @@ import './App.css';
 import CityLocator from "./CityLocator";
 import GeoLocator from './GeoLocator';
 import Header from './Header';
+import DistanceCalculator from './DistanceCalculator';
 
 
 
@@ -17,6 +18,9 @@ function App() {
       <GeoLocator>
         
       </GeoLocator>
+      <DistanceCalculator>
+        
+      </DistanceCalculator>
     </div>
   );
 }

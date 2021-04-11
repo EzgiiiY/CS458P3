@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Button, Input } from 'antd';
+import { Card, Button, Spin } from 'antd';
 
 import 'antd/dist/antd.css';
 import '../src/App.css';
@@ -103,6 +103,8 @@ class CityLocator extends Component {
                 <CityLocatorButton className="locate-city" buttonValue="locate" buttonAction={this.locateCity}>
 
                 </CityLocatorButton>
+                <br></br>
+                {this.state.loading && <Spin style={{marginTop:"2%"}}size="large"></Spin>}
                 {this.state.city &&
                     <p className="result-text-geoc" style={{ color: "blue", fontWeight: "bold", fontSize: "25px" }} >{`This location is in ${this.state.city}`}</p>
                 }

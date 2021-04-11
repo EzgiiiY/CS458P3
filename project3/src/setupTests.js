@@ -10,3 +10,19 @@ import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 
 //configure({ adapter: new Adapter() });
 Enzyme.configure({ adapter: new Adapter() });
+
+const mockGeolocation = {
+    getCurrentPosition: jest.fn().mockImplementationOnce((success) => Promise.resolve(success({
+        coords:{
+            latitude: 39.8962167,
+            longitude: 32.802122499999996
+        }
+        })))
+};
+global.navigator.geolocation = mockGeolocation;
+
+global.navigator.permissions = {
+    query: jest
+      .fn()
+      .mockImplementationOnce(() => Promise.resolve({ state: 'granted' })),
+  };
