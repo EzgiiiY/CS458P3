@@ -57,7 +57,7 @@ describe('mounted CityLocator', () => {
 
     let data = container.state('city');
     expect(data).toEqual("Adana");
-    expect(container.find(".result-text").text()).toContain("Adana");
+    expect(container.find(".result-text-geoc").text()).toContain("Adana");
 
     container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 39.9334 } });
     container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 32.8597 } });
@@ -66,6 +66,7 @@ describe('mounted CityLocator', () => {
 
     let data1 = container.state('city');
     expect(data1).toEqual("Ankara");
+    expect(container.find(".result-text-geoc").text()).toContain("Ankara");
 
     container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 39.6078 } });
     container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 32.0837 } });
@@ -82,6 +83,8 @@ describe('mounted CityLocator', () => {
 
     let data3 = container.state('city');
     expect(data3).toEqual("Trabzon");
+    expect(container.find(".result-text-geoc").text()).toContain("Trabzon");
+
 
     }); 
     
