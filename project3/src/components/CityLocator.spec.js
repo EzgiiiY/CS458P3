@@ -57,6 +57,7 @@ describe('mounted CityLocator', () => {
 
     let data = container.state('city');
     expect(data).toEqual("Adana");
+    expect(container.find(".result-text").text()).toContain("Adana");
 
     container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 39.9334 } });
     container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 32.8597 } });
@@ -94,7 +95,7 @@ describe('mounted CityLocator', () => {
     let data = container.state('validLat');
     expect(data).toEqual(false);
 
-    expect(container.find("p").exists()).toBeTruthy();
+    expect(container.find(".error-lat").exists()).toBeTruthy();
 
   }); 
     
