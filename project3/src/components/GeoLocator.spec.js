@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import CityLocator from '../CityLocator';
 import { waitForState } from 'enzyme-async-helpers';
 import GeoLocator from '../GeoLocator';
 

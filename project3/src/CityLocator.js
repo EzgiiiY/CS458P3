@@ -31,7 +31,7 @@ class CityLocator extends Component {
         this.onChangeLong = this.onChangeLong.bind(this);
 
     }
-    //sonradan değişmeli
+
     async locateCity(){
         this.setState({loading:true})
         console.log("Locate city called.");
@@ -82,7 +82,7 @@ class CityLocator extends Component {
             >
 
             </input>
-            {!this.state.validLat && <p>hello</p>}
+            {!this.state.validLat && <p className="error-lat">hello</p>}
             <input
                 className="longitude"
                 type="text"
@@ -91,10 +91,11 @@ class CityLocator extends Component {
             >
             
             </input>
-            {!this.state.validLong && <p>hello</p>}
+            {!this.state.validLong && <p className="error-long">hello</p>}
             <CityLocatorButton className="locate-city" buttonValue="locate" buttonAction={this.locateCity}>
                 
             </CityLocatorButton>
+            <p className="result-text">{`This location is in ${this.state.city}`}</p>
         </div>
     }
 }
