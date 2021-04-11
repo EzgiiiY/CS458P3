@@ -85,7 +85,6 @@ describe('mounted CityLocator', () => {
     expect(data3).toEqual("Trabzon");
     expect(container.find(".result-text-geoc").text()).toContain("Trabzon");
 
-
     }); 
     
   //it checks when the invalid input is entered it gives error
@@ -97,8 +96,16 @@ describe('mounted CityLocator', () => {
     await waitForState(container, state => state.loading === false);
     let data = container.state('validLat');
     expect(data).toEqual(false);
-
     expect(container.find(".error-lat").exists()).toBeTruthy();
+    
+    container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: "39.6078" } });
+    container.find('.longitude').simulate('change', { target: { name: 'longitude', value: "&!" } });
+    container.find('.locate-city').first().simulate('click');
+
+    await waitForState(container, state => state.loading === false);
+    let data2 = container.state('validLong');
+    expect(data2).toEqual(false);
+    expect(container.find(".error-long").exists()).toBeTruthy();
 
   }); 
     
