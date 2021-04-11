@@ -24,6 +24,7 @@ class GeoLocator extends Component {
             longitudeCity:0,
             city: '',
             loading:false,
+            distance:"",
         }; 
         this.locate=this.locate.bind(this);
         this.locateCity=this.locateCity.bind(this);
@@ -42,7 +43,7 @@ class GeoLocator extends Component {
         dist = dist * 60 * 1.1515
         if (unit=="K") { dist = dist * 1.609344 }
         if (unit=="M") { dist = dist * 0.8684 }
-        this.setState({loading:false})
+        this.setState({loading:false, distance:dist})
         console.log(dist)
     }
 
@@ -98,6 +99,10 @@ class GeoLocator extends Component {
                 <GeoLocatorButton className="geo-locate" buttonValue="See Distance" buttonAction={this.locate}>
             
                 </GeoLocatorButton>
+                {this.state.distance &&
+                    <p className="result-text-geol" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >{ `Distance to nearest city center is ${this.state.distance} and that city is ${this.state.city}`}</p>
+           
+                }
             </div>       
         );
     }

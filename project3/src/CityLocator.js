@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Button,Input } from 'antd';
+import { Card, Button, Input } from 'antd';
 
 import 'antd/dist/antd.css';
 import '../src/App.css';
@@ -73,37 +73,40 @@ class CityLocator extends Component {
             this.setState({ validLong: false })
         console.log(this.state)
     }
-  
-    render(){
-        return <div>
-            <p>Please enter coordinates to see nearest city</p>
-            <input
-                className="latitude"
-                type="text"
-                name="latitude"
-                placeholder="Latitude"
-                style={{ backgroundColor: "#fff", borderRadius: "4px", borderColor: "#333", color: "#8c8c8c", marginRight: ".5rem" }}
-                onChange={this.onChangeLat}
-            >
 
-            </input>
-            {!this.state.validLat && <p className="error-lat" style={{ color: "orange", fontWeight: "bold" }}>*hello</p>}
-            <input
-                className="longitude"
-                type="text"
-                name="longitude"
-                placeholder="Longitude"
-                style={{ backgroundColor: "#fff", borderRadius: "4px", borderColor: "#333", color: "#8c8c8c", marginRight: ".5rem" }}
-                onChange={this.onChangeLong}
-            >
+    render() {
+        return (
+            <div>
+                <p>Please enter coordinates to see nearest city</p>
+                <input
+                    className="latitude"
+                    type="text"
+                    name="latitude"
+                    placeholder="Latitude"
+                    style={{ backgroundColor: "#fff", borderRadius: "4px", borderColor: "#333", color: "#8c8c8c", marginRight: ".5rem" }}
+                    onChange={this.onChangeLat}
+                >
 
-            </input>
-            {!this.state.validLong && <p className="error-long" style= {{color:"orange", fontWeight:"bold"}}>hello</p>}
-            <CityLocatorButton className="locate-city" buttonValue="locate" buttonAction={this.locateCity}>
+                </input>
+                {!this.state.validLat && <p className="error-lat" style={{ color: "orange", fontWeight: "bold" }}>*hello</p>}
+                <input
+                    className="longitude"
+                    type="text"
+                    name="longitude"
+                    placeholder="Longitude"
+                    style={{ backgroundColor: "#fff", borderRadius: "4px", borderColor: "#333", color: "#8c8c8c", marginRight: ".5rem" }}
+                    onChange={this.onChangeLong}
+                >
 
-            </CityLocatorButton>
-            <p className="result-text" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >{ `This location is in ${this.state.city}`}</p>
-        </div>
+                </input>
+                {!this.state.validLong && <p className="error-long" style={{ color: "orange", fontWeight: "bold" }}>hello</p>}
+                <CityLocatorButton className="locate-city" buttonValue="locate" buttonAction={this.locateCity}>
+
+                </CityLocatorButton>
+                {this.state.city &&
+                    <p className="result-text-geoc" style={{ color: "blue", fontWeight: "bold", fontSize: "25px" }} >{`This location is in ${this.state.city}`}</p>
+                }
+            </div>);
     }
 }
 export default CityLocator;
