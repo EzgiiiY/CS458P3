@@ -48,7 +48,7 @@ describe('mounted CityLocator', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   }); 
 
-  it('checks when the valid coordinates entered gives the correct city', async() => {
+  it('checks when the valid coordinates are entered it gives the correct city', async() => {
     //text input un class-name i latitude olmalı
     container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 37.000000 } });
     container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 35.321335 } });
@@ -57,7 +57,47 @@ describe('mounted CityLocator', () => {
 
     let data = container.state('city');
     expect(data).toEqual("Adana");
+
+    container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 39.9334 } });
+    container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 32.8597 } });
+    container.find('.locate-city').first().simulate('click');
+    await waitForState(container, state => state.loading === false);
+
+    let data = container.state('city');
+    expect(data).toEqual("Ankara");
+
+    container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 39.6078 } });
+    container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 32.0837 } });
+    container.find('.locate-city').first().simulate('click');
+    await waitForState(container, state => state.loading === false);
+
+    let data = container.state('city');
+    expect(data).toEqual("Ankara");
     
-    });  
+    container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 40.7485 } });
+    container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 40.2424 } });
+    container.find('.locate-city').first().simulate('click');
+    await waitForState(container, state => state.loading === false);
+
+    let data = container.state('city');
+    expect(data).toEqual("Ankara");
+
+    }); 
+    
+    //it checks when the invalid input is entered it gives error
+    it('Invalid input test', () => {
+      container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: "abc" } });
+      container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 40.2424 } });
+      container.find('.locate-city').first().simulate('click');
+
+      await waitForState(container, state => state.loading === false);
+      let data = container.state('validLat');
+      expect(data).toEqual(false);
+
+      expect(container.find("p").exists()).toBeTruthy();
+
+    }); 
     
 });
+
+
