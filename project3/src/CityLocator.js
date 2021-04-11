@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Card, Button,Input } from 'antd';
 import 'antd/dist/antd.css';
 import '../src/App.css';
+import Header from './Header';
+
 
 import CityLocatorButton from "./CityLocatorButton";
 import Geocode from "react-geocode";
@@ -74,19 +76,25 @@ class CityLocator extends Component {
 
     render(){
         return <div>
+            
+            <p>Please enter coordinates to see nearest city</p>
             <input
                 className="latitude"
                 type="text"
                 name="latitude" 
+                placeholder="Latitude"
+                style={{ backgroundColor: "#fff",borderRadius:"4px" ,borderColor:"#333", color:"#8c8c8c",marginRight: ".5rem"}}
                 onChange={this.onChangeLat}
             >
 
             </input>
-            {!this.state.validLat && <p className="error-lat">hello</p>}
+            {!this.state.validLat && <p className="error-lat" style= {{color:"orange", fontWeight:"bold"}}>*hello</p>}
             <input
                 className="longitude"
                 type="text"
                 name="longitude" 
+                placeholder="Longitude"
+                style={{ backgroundColor: "#fff",borderRadius:"4px" ,borderColor:"#333", color:"#8c8c8c",marginRight: ".5rem"}}
                 onChange={this.onChangeLong}
             >
             
