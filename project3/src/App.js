@@ -5,9 +5,12 @@ import GeoLocator from './GeoLocator';
 import Header from './Header';
 
 
+
 function App() {
   return (
     <div className="App">
+
+      <Header> </Header>
       <CityLocator>
         
       </CityLocator>

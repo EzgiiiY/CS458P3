@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Card, Button, Input } from 'antd';
+import { Card, Button,Input } from 'antd';
+
 import 'antd/dist/antd.css';
 import '../src/App.css';
 import Header from './Header';
@@ -72,10 +73,9 @@ class CityLocator extends Component {
             this.setState({ validLong: false })
         console.log(this.state)
     }
-
-    render() {
+  
+    render(){
         return <div>
-
             <p>Please enter coordinates to see nearest city</p>
             <input
                 className="latitude"
@@ -98,11 +98,11 @@ class CityLocator extends Component {
             >
 
             </input>
-            {!this.state.validLong && <p className="error-long">hello</p>}
+            {!this.state.validLong && <p className="error-long" style= {{color:"orange", fontWeight:"bold"}}>hello</p>}
             <CityLocatorButton className="locate-city" buttonValue="locate" buttonAction={this.locateCity}>
 
             </CityLocatorButton>
-            <p className="result-text">{`This location is in ${this.state.city}`}</p>
+            <p className="result-text" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >{ `This location is in ${this.state.city}`}</p>
         </div>
     }
 }
