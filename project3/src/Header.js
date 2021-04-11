@@ -3,12 +3,13 @@ import React from "react";
 
 export default function Header() {
   const displayDesktop = () => {
-    return <Toolbar>Hi From Desktop Header</Toolbar>;
+    return <Toolbar>Locator</Toolbar>;
   };
   
   return (
     <header>
-      <AppBar>{displayDesktop()}</AppBar>
+      <AppBar position="static">{displayDesktop()}</AppBar>
+          <h1>Find Locations</h1>
     </header>
   );
 }

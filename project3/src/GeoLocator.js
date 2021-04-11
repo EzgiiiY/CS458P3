@@ -94,7 +94,8 @@ class GeoLocator extends Component {
     render() {
         return(
             <div>
-                <GeoLocatorButton className="geo-locate" buttonValue="locate 2" buttonAction={this.locate}>
+                <p>Click button to see your distance to the nearest city center </p>
+                <GeoLocatorButton className="geo-locate" buttonValue="See Distance" buttonAction={this.locate}>
             
                 </GeoLocatorButton>
             </div>       
