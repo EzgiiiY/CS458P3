@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.8.3",
     "antd": "^4.14.1",
     "chai": "^4.3.4",
+    "enzyme-async-helpers": "^0.9.1",
     "mocha": "^8.3.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

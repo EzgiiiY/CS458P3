@@ -1,6 +1,8 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import CityLocator from '../CityLocator';
+import { waitForState } from 'enzyme-async-helpers';
+
 
 describe('City Locator', () => {
   let container;
@@ -46,14 +48,15 @@ describe('mounted CityLocator', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   }); 
 
-  it('checks when the valid coordinates entered gives the correct city', () => {
+  it('checks when the valid coordinates entered gives the correct city', async() => {
     //text input un class-name i latitude olmalı
     container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 37.000000 } });
     container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 35.321335 } });
     container.find('.locate-city').first().simulate('click');
+    await waitForState(container, state => state.loading === false);
 
-    
-    expect(container.state('city')).toEqual("Adana");
+    let data = container.state('city');
+    expect(data).toEqual("Adana");
     
     });  
     

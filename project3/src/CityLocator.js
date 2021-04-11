@@ -22,13 +22,15 @@ class CityLocator extends Component {
             latitude:0,
             longitude:0,
             city: '',
+            loading:false
         }; 
         this.locateCity=this.locateCity.bind(this);
     }
     //sonradan değişmeli
     async locateCity(){
+        this.setState({loading:true})
         console.log("Locate city called.");
-        await Geocode.fromLatLng("39.8754", "39.8754").then(
+        await Geocode.fromLatLng("37.0", "35.321335").then(
             (response) => {
                 let city;
               const address = response.results[0].address_components;
@@ -38,13 +40,13 @@ class CityLocator extends Component {
                         city=address[i].long_name;
                 }
               console.log("address: " + address+ " city: " + city );
-              this.setState({city:city})
+              this.setState({city:city, loading:false})
             },
             (error) => {
               console.error(error);
             }
         );
-       
+       console.log(this.state)
     }
     render(){
         return <div>
