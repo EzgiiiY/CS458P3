@@ -3,9 +3,8 @@ import { Card, Button,Input } from 'antd';
 import 'antd/dist/antd.css';
 import '../src/App.css';
 
-import { geolocated } from "react-geolocated";
 import Geocode from "react-geocode";
-
+import GeoLocatorButton from "./GeoLocatorButton";
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
 Geocode.setApiKey("AIzaSyAHlJQ6EdfWT_UVPNpagMe7sS9kz1N-diU");
 
@@ -19,60 +18,87 @@ class GeoLocator extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            latitude:0,
-            longitude:0,
+            latitudeDevice:0,
+            longitudeDevice:0,
+            latitudeCity:0,
+            longitudeCity:0,
             city: '',
             loading:false,
         }; 
         this.locate=this.locate.bind(this);
-        this.onChangeLat = this.onChangeLat.bind(this);
-        this.onChangeLong = this.onChangeLong.bind(this);
+        this.locateCity=this.locateCity.bind(this);
+        this.distance = this.distance.bind(this);
 
     }
 
-    parseDMS(input) {
-        var parts = input.split(/[^\d\w\.]+/);
-        var lat = this.convertDMSToDD(parts[0], parts[1], parts[2], parts[3]);
-        var lng = this.convertDMSToDD(parts[4], parts[5], parts[6], parts[7]);
-    }
-
-    convertDMSToDD(degrees, minutes, seconds, direction) {
-        var dd = Number(degrees) + Number(minutes)/60 + Number(seconds)/(60*60);
-    
-        if (direction == "S" || direction == "W") {
-            dd = dd * -1;
-        } // Don't do anything for N or E
-        return dd;
+    distance(lat1, lon1, lat2, lon2, unit) {
+        var radlat1 = Math.PI * lat1/180
+        var radlat2 = Math.PI * lat2/180
+        var theta = lon1-lon2
+        var radtheta = Math.PI * theta/180
+        var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+        dist = Math.acos(dist)
+        dist = dist * 180/Math.PI
+        dist = dist * 60 * 1.1515
+        if (unit=="K") { dist = dist * 1.609344 }
+        if (unit=="M") { dist = dist * 0.8684 }
+        this.setState({loading:false})
+        console.log(dist)
     }
 
     async locate(){
-        navigator.geolocation.getCurrentPosition(function(position) {
+        navigator.geolocation.getCurrentPosition(position=> {
             console.log("Latitude is :", position.coords.latitude);
             console.log("Longitude is :", position.coords.longitude);
-          });
+            this.setState({latitudeDevice:position.coords.latitude, longitudeDevice: position.coords.longitude})
+            this.locateCity();
+        })
+        
+        
     }
 
-    onChangeLat(e){
-        console.log(e.target.value)
-        if(re.test(e.target.value))
-            this.setState({validLat:true, latitude:e.target.value})
-        else
-            this.setState({validLat:false})
-        console.log(this.state)
-    }
-
-    onChangeLong(e){
-        console.log(e.target.value)
-        if(re.test(e.target.value))
-            this.setState({validLong:true, longitude:e.target.value})
-        else
-            this.setState({validLong:false})
-        console.log(this.state)
+    async locateCity(){
+        this.setState({loading:true})
+        console.log("Locate city called.");
+        console.log(this.state);
+        await Geocode.fromLatLng(this.state.latitudeDevice.toString(), this.state.longitudeDevice.toString()).then(
+            (response) => {
+                let city;
+              const address = response.results[0].address_components;
+              console.log(response.results)
+              for(let i = 0; i< address.length;i++)
+                {
+                    if(address[i].types.includes("administrative_area_level_1"))
+                        city=address[i].long_name;
+                }
+              console.log("address: " + address+ " city: " + city );
+              this.setState({city:city})
+            },
+            (error) => {
+              console.error(error);
+            }
+        )
+        await Geocode.fromAddress(this.state.city).then(
+            (response) => {
+              const address = response.results;
+              console.log(response.results)
+              
+              this.setState({latitudeCity: response.results[0].geometry.location.lat, longitudeCity: response.results[0].geometry.location.lng})
+            },
+            (error) => {
+              console.error(error);
+            }
+        ).then(()=>this.distance(this.state.latitudeDevice, this.state.longitudeDevice, this.state.latitudeCity,this.state.longitudeCity, "K"))
     }
 
     render() {
         return(
-        <Button onClick={this.locate}> locate 2</Button>);
+            <div>
+                <GeoLocatorButton className="geo-locate" buttonValue="locate 2" buttonAction={this.locate}>
+            
+                </GeoLocatorButton>
+            </div>       
+        );
     }
 }
 export default GeoLocator;
