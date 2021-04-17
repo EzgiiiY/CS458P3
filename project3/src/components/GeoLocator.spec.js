@@ -19,11 +19,24 @@ describe('GeoLocator', () => {
 
 });
 
+var webdriver = require('selenium-webdriver');
+        var chrome = require('selenium-webdriver/chrome');
+        var path = require('chromedriver').path;
+
+        const driver = new webdriver.Builder()
+            .withCapabilities({ browserName: 'chrome', chromeOptions: { w3c: false } })
+            .build();
+        const By = webdriver.By;
+        const until = webdriver.until;
+        const loginURL = "http://localhost:3000";
+        jest.setTimeout(30000);
+
 describe('mounted GeoLocator', () => {
     let container;
-
-    beforeEach(() => (container = mount(<GeoLocator />)));
-
+    
+    beforeEach(() => {
+        container = mount(<GeoLocator />);
+    });
 
     xit('invokes locate when the GeoLocator button is clicked', () => {
         const spy = jest.spyOn(container.instance(), 'locate');
@@ -33,12 +46,14 @@ describe('mounted GeoLocator', () => {
         container.find('.geo-locate').first().simulate('click');
         expect(spy).toHaveBeenCalledTimes(1);
     });
-    
     it('Verifies that with a button click, true distance is calculated.', async() => {
+        await driver.navigate().to(loginURL)
+        .then(()=> driver.findElement(By.id("geo-locate")))
+        .then(button=>button.click())
+        .then(()=>driver.wait(until.elementLocated(By.className("result-text-geol"))))
+        //container.find('.geo-locate').first().simulate('click');
         
-        container.find('.geo-locate').first().simulate('click');
-        
-        await waitForState(container, state => state.loading === false);
+        /*await waitForState(driver, state => state.loading === false);
 
         let data = container.state('latitudeCity');
         expect(data).toEqual(39.9333635);
@@ -56,8 +71,10 @@ describe('mounted GeoLocator', () => {
         expect(data5).toEqual(6.42);
 
         expect(container.find(".result-text-geol").exists()).toBeTruthy();
-        
-        //expect(container.find(".result-text-geol").text()).toContain("6.42");
+        */
+       let text = await driver.findElement(By.className("result-text-geol"))
+       .then(element=>element.getText())
+        expect(text).toContain("6.42");
     });
     
 

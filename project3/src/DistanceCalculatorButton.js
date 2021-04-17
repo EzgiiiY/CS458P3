@@ -2,7 +2,7 @@ import React, { Component, View } from 'react';
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
 
-const CityLocatorButton = ({ buttonValue, buttonAction }) => (
+const DistanceCalculatorButton = ({ buttonValue, buttonAction }) => (
 
   <Button className="button-container" style={styles.button}
 
@@ -24,4 +24,4 @@ let styles = {
   }
 }
 
-export default CityLocatorButton;
+export default DistanceCalculatorButton;

@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import 'antd/dist/antd.css';
 
 const GeoLocatorButton = ({ buttonValue,buttonAction }) => (
-    <Button className="button-container" style={styles.geoLocatorButton}onClick={() => buttonAction()}>
+    <Button id="geo-locate" className="button-container" style={styles.geoLocatorButton}onClick={() => buttonAction()}>
       <p className="button-value">{buttonValue} </p>
     </Button>
   );

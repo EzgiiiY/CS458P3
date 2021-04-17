@@ -45,7 +45,8 @@ class GeoLocator extends Component {
         dist = dist * 60 * 1.1515
         if (unit=="K") { dist = dist * 1.609344 }
         if (unit=="M") { dist = dist * 0.8684 }
-        this.setState({loading:false, distance:dist})
+        let dist1= Number( dist.toPrecision(3) )
+        this.setState({loading:false, distance:dist1})
     }
 
     async locate(){
@@ -57,8 +58,6 @@ class GeoLocator extends Component {
             console.log("locate")
             this.locateCity();
         })
-        
-        
     }
 
     async locateCity(){
@@ -91,7 +90,8 @@ class GeoLocator extends Component {
             (error) => {
               console.error(error);
             }
-        ).then(()=>this.distance(this.state.latitudeDevice, this.state.longitudeDevice, this.state.latitudeCity,this.state.longitudeCity, "K"))
+        ).then(()=>
+            this.distance(this.state.latitudeDevice, this.state.longitudeDevice, this.state.latitudeCity,this.state.longitudeCity, "K"))
     }
 
     render() {
@@ -104,8 +104,9 @@ class GeoLocator extends Component {
                 <br></br>
                 {this.state.loading && <Spin style={{marginTop:"2%"}}size="large"></Spin>}
                 {this.state.distance &&
-                    <p className="result-text-geol" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >{ `Distance to nearest city center is ${this.state.distance} and that city is ${this.state.city}`}</p>
-           
+                    <p className="result-text-geol" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >
+                        { `Distance to nearest city center is ${this.state.distance} kms and that city is ${this.state.city}`}
+                    </p>
                 }
             </div>       
         );

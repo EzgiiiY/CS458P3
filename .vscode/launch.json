@@ -18,6 +18,17 @@
             "cwd": "${workspaceFolder}/project3"
 
         }
+        {
+            "name": "Debug CRA Tests",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "${workspaceRoot}/project3/node_modules/.bin/react-scripts",
+            "args": ["test", "--runInBand", "--no-cache", "--env=jsdom"],
+            "cwd": "${workspaceFolder}/project3",
+            "protocol": "inspector",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+          }
         
     ]
 }
