@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { Card, Button, Spin } from 'antd';
 import 'antd/dist/antd.css';
 import '../src/App.css';
-import Header from './Header';
-
-
-import DistanceCalculatorButton from "./CityLocatorButton";
+import DistanceCalculatorButton from "./DistanceCalculatorButton";
 import Geocode from "react-geocode";
 
 // set Google Maps Geocoding API for purposes of quota management. Its optional but recommended.
@@ -21,15 +18,14 @@ class DistanceCalculator extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            latitude: 0,
-            longitude: 0,
-            city: '',
+            latitude: "",
+            longitude: "",
             loading: false,
             validLat: true,
             validLong: true,
             distance:""
         };
-        this.locateCity = this.locateCity.bind(this);
+        this.calculateDistance = this.calculateDistance.bind(this);
         this.autoCalc = this.autoCalc.bind(this);
         this.onChangeLat = this.onChangeLat.bind(this);
         this.onChangeLong = this.onChangeLong.bind(this);
@@ -41,12 +37,12 @@ class DistanceCalculator extends Component {
         navigator.geolocation.getCurrentPosition(position=> {
             console.log("Latitude is :", position.coords.latitude);
             console.log("Longitude is :", position.coords.longitude);
-            this.setState({latitudeDevice:position.coords.latitude, longitudeDevice: position.coords.longitude})
+            this.setState({latitude:position.coords.latitude, longitude: position.coords.longitude})
             this.autoCalc();
         })
     }
 
-    async locateCity() {
+    async calculateDistance() {
         this.setState({ loading: true })
         let r1 = 6378.137; // equatorial r km
         let r2 = 6356.752; //polar r km
@@ -61,15 +57,6 @@ class DistanceCalculator extends Component {
     }
 
     async autoCalc() {
-       /* fetch("https://maps.googleapis.com/maps/api/elevation/json?locations=39.7391536,-104.9847034&key=AIzaSyAHlJQ6EdfWT_UVPNpagMe7sS9kz1N-diU",
-        {
-            mode:'no-cors',
-            headers: {'Content-Type': 'application/json'}
-        }
-        ).then(function(response) {
-            console.log(response)
-            //console.log(result)
-          });*/
         let r1 = 6378; // equatorial r km
         let r2 = 6357; //polar r km
         let firstTerm = Math.pow(Math.pow(r1,2) * Math.cos(this.state.latitude),2);
@@ -99,6 +86,8 @@ class DistanceCalculator extends Component {
     }
 
     render() {
+        let dist1= Number( Number(this.state.longitude).toPrecision(3) );
+        let dist2= Number( Number(this.state.latitude).toPrecision(3) )
         return <div>
 
             <p>Please enter coordinates to calculate distance to earth center</p>
@@ -124,14 +113,25 @@ class DistanceCalculator extends Component {
 
             </input>
             {!this.state.validLong && <p className="error-long-c">hello</p>}
-            <DistanceCalculatorButton className="calculate-manual" buttonValue="Calculate Distance" buttonAction={this.locateCity}>
+            <DistanceCalculatorButton buttonId="calculate-manual" className="calculate-manual" buttonValue="Calculate Distance" buttonAction={this.calculateDistance}>
 
             </DistanceCalculatorButton>
-            <DistanceCalculatorButton className="calculate-automatic" buttonValue="Automatically Calculate Distance" buttonAction={this.locate}>
+            <DistanceCalculatorButton buttonId="calculate-automatic" className="calculate-automatic" buttonValue="Automatically Calculate Distance" buttonAction={this.locate}>
 
             </DistanceCalculatorButton>
+            <br></br>
             {this.state.loading && <Spin style={{marginTop:"2%"}}size="large"></Spin>}
-
+            <br></br>
+            {this.state.longitude &&
+                <p className="longitude-auto" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >
+                    { `Longitude found for this device is ${dist1}`}
+                </p>
+            }
+            {this.state.latitude &&
+                <p className="latitude-auto" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >
+                    { `Latitude found for this device is ${dist2}`}
+                </p>
+            }
             <p className="result-text-distance">{`This location approx. ${this.state.distance} kms away from the center of the earth`}</p>
             
         </div>
