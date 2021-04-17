@@ -18,10 +18,10 @@ class GeoLocator extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            latitudeDevice:0,
-            longitudeDevice:0,
-            latitudeCity:0,
-            longitudeCity:0,
+            latitudeDevice:"",
+            longitudeDevice:"",
+            latitudeCity:"",
+            longitudeCity:"",
             city: '',
             loading:false,
             distance:"",
@@ -54,6 +54,7 @@ class GeoLocator extends Component {
         navigator.geolocation.getCurrentPosition(position=> {
             console.log("Latitude is :", position.coords.latitude);
             console.log("Longitude is :", position.coords.longitude);
+            
             this.setState({latitudeDevice:position.coords.latitude, longitudeDevice: position.coords.longitude})
             console.log("locate")
             this.locateCity();
@@ -95,6 +96,11 @@ class GeoLocator extends Component {
     }
 
     render() {
+
+        let dist1= Number( Number(this.state.longitudeDevice).toPrecision(3) );
+        let dist2= Number( Number(this.state.latitudeDevice).toPrecision(3) )
+        let dist3= Number( Number(this.state.longitudeCity).toPrecision(3) )
+        let dist4= Number( Number(this.state.latitudeCity).toPrecision(3) )
         return(
             <div>
                 <p>Click button to see your distance to the nearest city center </p>
@@ -103,6 +109,26 @@ class GeoLocator extends Component {
                 </GeoLocatorButton>
                 <br></br>
                 {this.state.loading && <Spin style={{marginTop:"2%"}}size="large"></Spin>}
+                {this.state.longitudeDevice &&
+                    <p className="longitude-device" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >
+                        { `Longitude device is ${dist1}`}
+                    </p>
+                }
+                {this.state.latitudeDevice &&
+                    <p className="latitude-device" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >
+                        { `Latitude device is ${dist2}`}
+                    </p>
+                }
+                {this.state.longitudeCity &&
+                    <p className="longitude-city" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >
+                        { `Longitude of the city center is ${dist3}`}
+                    </p>
+                }
+                {this.state.latitudeCity &&
+                    <p className="latitude-city" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >
+                        { `Latitude of the city center is ${dist4}`}
+                    </p>
+                }
                 {this.state.distance &&
                     <p className="result-text-geol" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >
                         { `Distance to nearest city center is ${this.state.distance} kms and that city is ${this.state.city}`}

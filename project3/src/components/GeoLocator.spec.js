@@ -9,11 +9,11 @@ describe('GeoLocator', () => {
 
     beforeEach(() => container = shallow(<GeoLocator />));
 
-    xit('should render a <div />', () => {
+    it('should render a <div />', () => {
         expect(container.find('div').length).toEqual(1);
     });
 
-    xit("should render instances of the GeoLocatorButton component", () => {
+    it("should render instances of the GeoLocatorButton component", () => {
         expect(container.find("GeoLocatorButton").length).toEqual(1)
     })
 
@@ -38,7 +38,7 @@ describe('mounted GeoLocator', () => {
         container = mount(<GeoLocator />);
     });
 
-    xit('invokes locate when the GeoLocator button is clicked', () => {
+    it('invokes locate when the GeoLocator button is clicked', () => {
         const spy = jest.spyOn(container.instance(), 'locate');
         container.instance().forceUpdate();
         expect(spy).toHaveBeenCalledTimes(0);
@@ -51,30 +51,22 @@ describe('mounted GeoLocator', () => {
         .then(()=> driver.findElement(By.id("geo-locate")))
         .then(button=>button.click())
         .then(()=>driver.wait(until.elementLocated(By.className("result-text-geol"))))
-        //container.find('.geo-locate').first().simulate('click');
-        
-        /*await waitForState(driver, state => state.loading === false);
 
-        let data = container.state('latitudeCity');
-        expect(data).toEqual(39.9333635);
-        
-        let data2 = container.state('latitudeDevice');
-        expect(data2).toEqual(39.8962392);
-
-        let data3 = container.state('longitudeCity');
-        expect(data3).toEqual(32.8597419);
-
-        let data4 = container.state('longitudeDevice');
-        expect(data4).toEqual(32.802122499999996);
-
-        let data5 = container.state('distance');
-        expect(data5).toEqual(6.42);
-
-        expect(container.find(".result-text-geol").exists()).toBeTruthy();
-        */
-       let text = await driver.findElement(By.className("result-text-geol"))
+       let text = await driver.findElement(By.className("latitude-city"))
        .then(element=>element.getText())
-        expect(text).toContain("6.42");
+        expect(text).toContain("39.9");
+        let text2 = await driver.findElement(By.className("latitude-device"))
+       .then(element=>element.getText())
+        expect(text2).toContain("39.9");
+        let text3 = await driver.findElement(By.className("longitude-city"))
+       .then(element=>element.getText())
+        expect(text3).toContain("32.9");
+        let text4 = await driver.findElement(By.className("longitude-device"))
+       .then(element=>element.getText())
+        expect(text4).toContain("32.8");
+        let text5 = await driver.findElement(By.className("result-text-geol"))
+       .then(element=>element.getText())
+        expect(text5).toContain("6.42");
     });
     
 

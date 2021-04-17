@@ -9,20 +9,20 @@ describe('City Locator', () => {
 
   beforeEach(() => container = shallow(<CityLocator />));
 
-  xit('should render a <div />', () => {
+  it('should render a <div />', () => {
     expect(container.find('div').length).toEqual(1);
   });
 
-  xit("should render instances of the CityLocatorButton component", () => {
+  it("should render instances of the CityLocatorButton component", () => {
     expect(container.find("CityLocatorButton").length).toEqual(1)
   })
 
-  xit("should render instances of the text input component", () => {
+  it("should render instances of the text input component", () => {
     expect(container.find('input[type="text"]').length).toEqual(2)
   });
 
 
-  xit('invokes change when the text input is modified.', () => {
+  it('invokes change when the text input is modified.', () => {
     //text input un class-name i latitude olmalı
     container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 39.9334 } });
     expect(container.state('latitude')).toEqual(39.9334);
@@ -39,7 +39,7 @@ describe('mounted CityLocator', () => {
   beforeEach(() => (container = mount(<CityLocator />)));
   
 
-  xit('invokes locateCity when the CityLocatar button is clicked', () => {
+  it('invokes locateCity when the CityLocatar button is clicked', () => {
     const spy = jest.spyOn(container.instance(), 'locateCity');
     container.instance().forceUpdate();
     expect(spy).toHaveBeenCalledTimes(0);
@@ -48,7 +48,7 @@ describe('mounted CityLocator', () => {
     expect(spy).toHaveBeenCalledTimes(1);
   }); 
 
-  xit('checks when the valid coordinates are entered it gives the correct city', async() => {
+  it('checks when the valid coordinates are entered it gives the correct city', async() => {
     //text input un class-name i latitude olmalı
     container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: 37.000000 } });
     container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 35.321335 } });
@@ -88,7 +88,7 @@ describe('mounted CityLocator', () => {
     }); 
     
   //it checks when the invalid input is entered it gives error
-  xit('Invalid input test', async() => {
+  it('Invalid input test', async() => {
     container.find('input[type="text"]').first().simulate('change', { target: { name: 'latitude', value: "abc" } });
     container.find('.longitude').simulate('change', { target: { name: 'longitude', value: 40.2424 } });
     container.find('.locate-city').first().simulate('click');
