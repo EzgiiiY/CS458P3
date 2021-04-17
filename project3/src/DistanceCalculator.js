@@ -12,7 +12,9 @@ Geocode.setApiKey("AIzaSyAHlJQ6EdfWT_UVPNpagMe7sS9kz1N-diU");
 Geocode.setLanguage("en");
 Geocode.setLocationType("ROOFTOP");
 const re = new RegExp("^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$");
-
+const style1 = { color: "orange", fontWeight: "bold" }
+const style2 = { backgroundColor: "#fff", borderRadius: "4px", borderColor: "#333", color: "#8c8c8c", marginRight: ".5rem" }
+const style3 = { color: "blue", fontWeight: "bold", fontSize: "25px" }
 
 class DistanceCalculator extends Component {
     constructor(props) {
@@ -23,7 +25,7 @@ class DistanceCalculator extends Component {
             loading: false,
             validLat: true,
             validLong: true,
-            distance:""
+            distance: ""
         };
         this.calculateDistance = this.calculateDistance.bind(this);
         this.autoCalc = this.autoCalc.bind(this);
@@ -32,12 +34,10 @@ class DistanceCalculator extends Component {
         this.locate = this.locate.bind(this);
     }
 
-    async locate(){
-        this.setState({loading:true})
-        navigator.geolocation.getCurrentPosition(position=> {
-            console.log("Latitude is :", position.coords.latitude);
-            console.log("Longitude is :", position.coords.longitude);
-            this.setState({latitude:position.coords.latitude, longitude: position.coords.longitude})
+    async locate() {
+        this.setState({ loading: true })
+        navigator.geolocation.getCurrentPosition(position => {
+            this.setState({ latitude: position.coords.latitude, longitude: position.coords.longitude })
             this.autoCalc();
         })
     }
@@ -46,48 +46,41 @@ class DistanceCalculator extends Component {
         this.setState({ loading: true })
         let r1 = 6378.137; // equatorial r km
         let r2 = 6356.752; //polar r km
-        let firstTerm = Math.pow((Math.pow(r1,2) * Math.cos(this.state.latitude* Math.PI / 180.0)),2);
-        let secondTerm = Math.pow((Math.pow(r2,2) * Math.sin(this.state.latitude* Math.PI / 180.0)),2);
-        let thirdTerm = Math.pow( (r1 * Math.cos(this.state.latitude* Math.PI / 180.0)),2) + Math.pow( (r2 * Math.sin(this.state.latitude* Math.PI / 180.0)),2);
-        let r = Math.sqrt((firstTerm + secondTerm)/thirdTerm)
-        console.log("first: " + firstTerm);
-        console.log("second:" + secondTerm);
-        console.log("third:  " + thirdTerm);
-        this.setState({loading:false, distance: r})
+        let firstTerm = Math.pow((Math.pow(r1, 2) * Math.cos(this.state.latitude * Math.PI / 180.0)), 2);
+        let secondTerm = Math.pow((Math.pow(r2, 2) * Math.sin(this.state.latitude * Math.PI / 180.0)), 2);
+        let thirdTerm = Math.pow((r1 * Math.cos(this.state.latitude * Math.PI / 180.0)), 2) + Math.pow((r2 * Math.sin(this.state.latitude * Math.PI / 180.0)), 2);
+        let r = Math.sqrt((firstTerm + secondTerm) / thirdTerm)
+        this.setState({ loading: false, distance: r })
     }
 
     async autoCalc() {
         let r1 = 6378; // equatorial r km
         let r2 = 6357; //polar r km
-        let firstTerm = Math.pow(Math.pow(r1,2) * Math.cos(this.state.latitude),2);
-        let secondTerm = Math.pow(Math.pow(r2,2) * Math.sin(this.state.latitude),2);
-        let thirdTerm = Math.pow( r1 * Math.cos(this.state.latitude),2) + Math.pow( r2 * Math.sin(this.state.latitude),2);
-        let r = Math.sqrt((firstTerm + secondTerm)/thirdTerm)
-          
-        this.setState({loading:false, distance: r})
+        let firstTerm = Math.pow(Math.pow(r1, 2) * Math.cos(this.state.latitude), 2);
+        let secondTerm = Math.pow(Math.pow(r2, 2) * Math.sin(this.state.latitude), 2);
+        let thirdTerm = Math.pow(r1 * Math.cos(this.state.latitude), 2) + Math.pow(r2 * Math.sin(this.state.latitude), 2);
+        let r = Math.sqrt((firstTerm + secondTerm) / thirdTerm)
+
+        this.setState({ loading: false, distance: r })
     }
 
     onChangeLat(e) {
-        console.log(e.target.value)
         if (re.test(e.target.value))
             this.setState({ validLat: true, latitude: e.target.value })
         else
             this.setState({ validLat: false })
-        console.log(this.state)
     }
 
     onChangeLong(e) {
-        console.log(e.target.value)
         if (re.test(e.target.value))
             this.setState({ validLong: true, longitude: e.target.value })
         else
             this.setState({ validLong: false })
-        console.log(this.state)
     }
 
     render() {
-        let dist1= Number( Number(this.state.longitude).toPrecision(3) );
-        let dist2= Number( Number(this.state.latitude).toPrecision(3) )
+        let dist1 = Number(Number(this.state.longitude).toPrecision(3));
+        let dist2 = Number(Number(this.state.latitude).toPrecision(3))
         return <div>
 
             <p>Please enter coordinates to calculate distance to earth center</p>
@@ -96,44 +89,53 @@ class DistanceCalculator extends Component {
                 type="text"
                 name="latitude"
                 placeholder="Latitude"
-                style={{ backgroundColor: "#fff", borderRadius: "4px", borderColor: "#333", color: "#8c8c8c", marginRight: ".5rem" }}
+                style={style2}
                 onChange={this.onChangeLat}
             >
 
             </input>
-            {!this.state.validLat && <p className="error-lat-c" style={{ color: "orange", fontWeight: "bold" }}>*hello</p>}
+            {!this.state.validLat && <p className="error-lat-c" style={style1}>Invalid Latitude Input</p>}
             <input
                 className="longitude-c"
                 type="text"
                 name="longitude"
                 placeholder="Longitude"
-                style={{ backgroundColor: "#fff", borderRadius: "4px", borderColor: "#333", color: "#8c8c8c", marginRight: ".5rem" }}
+                style={style2}
                 onChange={this.onChangeLong}
-            >
+            />
 
-            </input>
-            {!this.state.validLong && <p className="error-long-c">hello</p>}
-            <DistanceCalculatorButton buttonId="calculate-manual" className="calculate-manual" buttonValue="Calculate Distance" buttonAction={this.calculateDistance}>
-
-            </DistanceCalculatorButton>
-            <DistanceCalculatorButton buttonId="calculate-automatic" className="calculate-automatic" buttonValue="Automatically Calculate Distance" buttonAction={this.locate}>
-
-            </DistanceCalculatorButton>
+            {!this.state.validLong &&
+                <p className="error-long-c" style={style1}>Invalid Longitude Input</p>
+            }
+            <DistanceCalculatorButton
+                buttonId="calculate-manual"
+                className="calculate-manual"
+                buttonValue="Calculate Distance"
+                buttonAction={this.calculateDistance}
+            />
+            <DistanceCalculatorButton
+                buttonId="calculate-automatic"
+                className="calculate-automatic"
+                buttonValue="Automatically Calculate Distance"
+                buttonAction={this.locate}
+            />
             <br></br>
-            {this.state.loading && <Spin style={{marginTop:"2%"}}size="large"></Spin>}
+            {this.state.loading &&
+                <Spin style={{ marginTop: "2%" }} size="large" />
+            }
             <br></br>
             {this.state.longitude &&
-                <p className="longitude-auto" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >
-                    { `Longitude found for this device is ${dist1}`}
+                <p className="longitude-auto" style={style3} >
+                    {`Longitude found for this device is ${dist1}`}
                 </p>
             }
             {this.state.latitude &&
-                <p className="latitude-auto" style= {{color:"blue", fontWeight:"bold", fontSize : "25px"}} >
-                    { `Latitude found for this device is ${dist2}`}
+                <p className="latitude-auto" style={style3} >
+                    {`Latitude found for this device is ${dist2}`}
                 </p>
             }
             <p className="result-text-distance">{`This location approx. ${this.state.distance} kms away from the center of the earth`}</p>
-            
+
         </div>
     }
 }
