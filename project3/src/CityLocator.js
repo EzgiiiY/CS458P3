@@ -29,49 +29,6 @@ class CityLocator extends Component {
             validLat: true,
             validLong: true,
         };
-        this.locateCity = this.locateCity.bind(this);
-        this.onChangeLat = this.onChangeLat.bind(this);
-        this.onChangeLong = this.onChangeLong.bind(this);
-
-    }
-
-    async locateCity() {
-        this.setState({ loading: true })
-        console.log("Locate city called.");
-        await Geocode.fromLatLng(this.state.latitude.toString(), this.state.longitude.toString()).then(
-            (response) => {
-                let city;
-                const address = response.results[0].address_components;
-                for (let i = 0; i < address.length; i++) {
-                    if (address[i].types.includes("administrative_area_level_1"))
-                        city = address[i].long_name;
-                }
-                console.log("address: " + address + " city: " + city);
-                this.setState({ city: city, loading: false })
-            },
-            (error) => {
-                console.error(error);
-            }
-        );
-        console.log(this.state)
-    }
-
-    onChangeLat(e) {
-        console.log(e.target.value)
-        if (re.test(e.target.value))
-            this.setState({ validLat: true, latitude: e.target.value })
-        else
-            this.setState({ validLat: false })
-        console.log(this.state)
-    }
-
-    onChangeLong(e) {
-        console.log(e.target.value)
-        if (re.test(e.target.value))
-            this.setState({ validLong: true, longitude: e.target.value })
-        else
-            this.setState({ validLong: false })
-        console.log(this.state)
     }
 
     render() {
@@ -84,7 +41,12 @@ class CityLocator extends Component {
                     name="latitude"
                     placeholder="Latitude"
                     style={{ backgroundColor: "#fff", borderRadius: "4px", borderColor: "#333", color: "#8c8c8c", marginRight: ".5rem" }}
-                    onChange={this.onChangeLat}
+                    onChange={(e) => {
+                        if (re.test(e.target.value))
+                            this.setState({ validLat: true, latitude: e.target.value })
+                        else
+                            this.setState({ validLat: false })
+                    }}
                 >
 
                 </input>
@@ -95,16 +57,45 @@ class CityLocator extends Component {
                     name="longitude"
                     placeholder="Longitude"
                     style={{ backgroundColor: "#fff", borderRadius: "4px", borderColor: "#333", color: "#8c8c8c", marginRight: ".5rem" }}
-                    onChange={this.onChangeLong}
+                    onChange={(e) => {
+                        if (re.test(e.target.value))
+                            this.setState({ validLong: true, longitude: e.target.value })
+                        else
+                            this.setState({ validLong: false })
+                    }}
                 >
 
                 </input>
                 {!this.state.validLong && <p className="error-long" style={{ color: "orange", fontWeight: "bold" }}>hello</p>}
-                <CityLocatorButton className="locate-city" buttonValue="locate" buttonAction={this.locateCity}>
+                <CityLocatorButton
+                    className="locate-city"
+                    buttonValue="locate"
+                    buttonAction={async() => {
+                        this.setState({ loading: true })
+                        console.log("Locate city called.");
+                        await Geocode.fromLatLng(this.state.latitude.toString(), this.state.longitude.toString()).then(
+                            (response) => {
+                                let city;
+                                const address = response.results[0].address_components;
+                                for (let i = 0; i < address.length; i++) {
+                                    if (address[i].types.includes("administrative_area_level_1"))
+                                        city = address[i].long_name;
+                                }
+                                console.log("address: " + address + " city: " + city);
+                                this.setState({ city: city, loading: false })
+                            },
+                            (error) => {
+                                console.error(error);
+                                this.setState({city: "not found", loading:false})
+                            }
+                        );
+                        console.log(this.state)
+                    }
+                    }
+                />
 
-                </CityLocatorButton>
                 <br></br>
-                {this.state.loading && <Spin style={{marginTop:"2%"}}size="large"></Spin>}
+                {this.state.loading && <Spin style={{ marginTop: "2%" }} size="large"></Spin>}
                 {this.state.city &&
                     <p className="result-text-geoc" style={{ color: "blue", fontWeight: "bold", fontSize: "25px" }} >{`This location is in ${this.state.city}`}</p>
                 }
