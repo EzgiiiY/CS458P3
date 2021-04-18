@@ -60,7 +60,7 @@ class DistanceCalculator extends Component {
             >
 
             </input>
-            {!this.state.validLat && <p className="error-lat-c" style={{ color: "orange", fontWeight: "bold" }}>*hello</p>}
+            {!this.state.validLat && <p className="error-lat-c" style={{ color: "orange", fontWeight: "bold" }}>Invalid Latitude Input</p>}
             <input
                 className="longitude-c"
                 type="text"
@@ -76,7 +76,7 @@ class DistanceCalculator extends Component {
             >
 
             </input>
-            {!this.state.validLong && <p className="error-long-c">hello</p>}
+            {!this.state.validLong && <p className="error-long-c" style={{ color: "orange", fontWeight: "bold" }}>Invalid Longitude Input</p>}
             <DistanceCalculatorButton buttonId="calculate-manual"
                 className="calculate-manual"
                 buttonValue="Calculate Distance"

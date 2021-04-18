@@ -50,7 +50,7 @@ class CityLocator extends Component {
                 >
 
                 </input>
-                {!this.state.validLat && <p className="error-lat" style={{ color: "orange", fontWeight: "bold" }}>*hello</p>}
+                {!this.state.validLat && <p className="error-lat" style={{ color: "orange", fontWeight: "bold" }}>Invalid Latitude Input</p>}
                 <input
                     className="longitude"
                     type="text"
@@ -66,7 +66,7 @@ class CityLocator extends Component {
                 >
 
                 </input>
-                {!this.state.validLong && <p className="error-long" style={{ color: "orange", fontWeight: "bold" }}>hello</p>}
+                {!this.state.validLong && <p className="error-long" style={{ color: "orange", fontWeight: "bold" }}>Invalid Longitude Input</p>}
                 <CityLocatorButton
                     className="locate-city"
                     buttonValue="locate"
