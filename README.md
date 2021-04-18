@@ -3,6 +3,7 @@ Project is located inside project 3 folder. The instructions on how to run the p
 Copy of that readme file is located below. You can follow the instructions below inside the './project3' directory.
 
 Note: since this project uses `Selenium` development server should be started to be able to pass all the tests using npm test. 
+
 Note2: this project uses google geocode api, the api key embedded in the project is unusable at the moment so the parts of the code may not be working as is.
 
 # Getting Started with Create React App
